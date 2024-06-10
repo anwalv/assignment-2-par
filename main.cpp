@@ -204,11 +204,81 @@ public:
     }
 
     void Cut (){
+        int lineNumber;
+        int position;
+        int numChar;
 
+        std::cout << "Enter the line number: ";
+        std::cin >> lineNumber;
+        std::cin.ignore();
+
+        std::cout << "Enter position number: ";
+        std::cin >> position;
+        std::cin.ignore();
+
+        std::cout << "Please, enter number of characters: \n";
+        std::cin >> numChar;
+        std::cin.ignore();
+
+        int currentLine = 1;
+        int currentPosition = 0;
+        char *ptr = text;
+        int textLength = strlen(text);
+        while (currentLine < lineNumber) {
+            if (*ptr == '\n') {
+                currentLine++;
+            }
+            ptr++;
+            currentPosition++;
+        }
+        position += currentPosition;
+        if(position + numChar > textLength ){
+            numChar = textLength -position;
+        }
+        strncpy(clipboard, text+position, numChar);
+        clipboard[numChar] = '\0';
+        memmove(text+ position, text + position + numChar, textLength - position- numChar + 1);
+        std::cout<< "Text was cut successfully!";
     }
 
     void PasteText(){
+        int lineNumber;
+        int position;
 
+        std::cout << "Enter the line number: ";
+        std::cin >> lineNumber;
+        std::cin.ignore();
+
+        std::cout << "Enter position number: ";
+        std::cin >> position;
+        std::cin.ignore();
+
+
+        int bufferLength = strlen(clipboard);
+        int currentSize = strlen(text);
+        if (currentSize + bufferLength >= arraySize) {
+            arraySize = currentSize + bufferLength + 2;
+            text = (char *) realloc(text, arraySize * sizeof(char));
+            if (text == NULL) {
+                std::cout << "Memory reallocation failed.\n";
+                return;
+            }
+        }
+        int currentLine = 1;
+        int currentPosition = 0;
+        char *ptr = text;
+        while (currentLine < lineNumber) {
+            if (*ptr == '\n') {
+                currentLine++;
+            }
+            ptr++;
+            currentPosition++;
+        }
+        position += currentPosition;
+        memmove(text + position + bufferLength, text + position, currentSize - position + 1);
+        strncpy(text + position, clipboard, bufferLength);
+        memset(clipboard, 0, sizeof(clipboard));
+        std::cout << "Text was pasted successfully\n";
     }
 
     void CopyText(){
