@@ -7,15 +7,51 @@ private:
     char *text;
     int arraySize;
     char clipboard[100];
+    char *states[3];
+    int numStates;
+    int undoNum;
+    int redoNum;
+    int currentStateIndex;
 
 public:
     TextEditor(int size = 100) {
         text = (char*) calloc(size, sizeof(char));
         arraySize = size;
+        numStates = 0;
+        undoNum = -1;
+        redoNum = -1;
+        currentStateIndex = -1;
+
+        // Allocate memory for the states
+        for (int i = 0; i < 3; ++i) {
+            states[i] = (char*) calloc(arraySize, sizeof(char));
+        }
     }
 
     ~TextEditor() {
         free(text);
+        for (int i = 0; i < 3; ++i) {
+            if (states[i] != nullptr) {
+                free(states[i]);
+            }
+        }
+    }
+
+    void SaveState(){
+        if (numStates == 3) {
+            free(states[0]);
+            for (int i = 0; i < 2; ++i) {
+                states[i] = states[i + 1];
+            }
+            states[2] = nullptr;
+            numStates = 2;
+        }
+        states[numStates] = (char*) calloc(arraySize, sizeof(char));
+        strncpy(states[numStates], text, arraySize);
+        currentStateIndex = numStates;
+        numStates++;
+        undoNum = numStates-1;
+        redoNum= -1;
     }
 
     void AppendText(){
@@ -160,9 +196,9 @@ public:
 
     }
 
-    void Redo(){
-    }
+    void Redo() {
 
+    }
     void ReplaceInsert(){
         int lineNumber;
         int position;
@@ -200,7 +236,6 @@ public:
 
         strncpy(text + position, userInput, inputLength);
         std::cout << "Text was inserted with replacement successfully\n";
-
     }
 
     void Cut (){
@@ -281,7 +316,42 @@ public:
         std::cout << "Text was pasted successfully\n";
     }
 
+
     void CopyText(){
+        int lineNumber;
+        int position;
+        int numChar;
+
+        std::cout << "Enter the line number: ";
+        std::cin >> lineNumber;
+        std::cin.ignore();
+
+        std::cout << "Enter position number: ";
+        std::cin >> position;
+        std::cin.ignore();
+
+        std::cout << "Please, enter number of characters: \n";
+        std::cin >> numChar;
+        std::cin.ignore();
+
+        int currentLine = 1;
+        int currentPosition = 0;
+        char *ptr = text;
+        int textLength = strlen(text);
+        while (currentLine < lineNumber) {
+            if (*ptr == '\n') {
+                currentLine++;
+            }
+            ptr++;
+            currentPosition++;
+        }
+        position += currentPosition;
+        if(position + numChar > textLength ){
+            numChar = textLength -position;
+        }
+        strncpy(clipboard, text + position, numChar);
+        clipboard[numChar] = '\0';
+        std::cout << clipboard;
 
     }
 };
@@ -303,8 +373,8 @@ int main() {
               << "13. Paste text.\n"
               << "14. Insert with replacement.\n"
               << "15. Exit.\n";
-
     int command = 0;
+    editor.SaveState();
     while (command != 15) {
         std::cout << "\nPlease, enter a number of command: ";
         std::cin >> command;
@@ -316,9 +386,11 @@ int main() {
         switch (command) {
             case 1:
                 editor.AppendText();
+                editor.SaveState();
                 break;
             case 2:
                 editor.StartNewLine();
+                editor.SaveState();
                 break;
             case 3:
                 editor.WriteToFile();
@@ -331,12 +403,14 @@ int main() {
                 break;
             case 6:
                 editor.InsertText();
+                editor.SaveState();
                 break;
             case 7:
                 editor.SearchSubstring();
                 break;
             case 8:
                 editor.DeleteText();
+                editor.SaveState();
                 break;
             case 9:
                 editor.Undo();
@@ -346,15 +420,18 @@ int main() {
                 break;
             case 11:
                 editor.Cut();
+                editor.SaveState();
                 break;
             case 12:
                 editor.CopyText();
                 break;
             case 13:
                 editor.PasteText();
+                editor.SaveState();
                 break;
             case 14:
                 editor.ReplaceInsert();
+                editor.SaveState();
                 break;
             case 15:
                 std::cout << "Ciao!";
