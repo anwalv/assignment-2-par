@@ -121,7 +121,39 @@ public:
     }
 
     void DeleteText(){
+        int lineNumber;
+        int position;
+        int numChar;
 
+        std::cout << "Enter the line number: ";
+        std::cin >> lineNumber;
+        std::cin.ignore();
+
+        std::cout << "Enter position number: ";
+        std::cin >> position;
+        std::cin.ignore();
+
+        std::cout << "Please, enter number of characters: \n";
+        std::cin >> numChar;
+        std::cin.ignore();
+
+        int currentLine = 1;
+        int currentPosition = 0;
+        char *ptr = text;
+        int textLength = strlen(text);
+        while (currentLine < lineNumber) {
+            if (*ptr == '\n') {
+                currentLine++;
+            }
+            ptr++;
+            currentPosition++;
+        }
+        position += currentPosition;
+        if(position + numChar > textLength ){
+            numChar = textLength -position;
+        }
+        memmove(text+ position, text + position + numChar, textLength - position- numChar + 1);
+        std::cout << "Text was deleted successfully\n";
     }
 
     void Undo(){
@@ -132,6 +164,42 @@ public:
     }
 
     void ReplaceInsert(){
+        int lineNumber;
+        int position;
+        char userInput[1000];
+
+        std::cout << "Enter the line number: ";
+        std::cin >> lineNumber;
+        std::cin.ignore();
+
+        std::cout << "Enter position number: ";
+        std::cin >> position;
+        std::cin.ignore();
+
+        std::cout << "Please, enter text to insert:\n";
+        std::cin.getline(userInput, 1000);
+
+        int inputLength = strlen(userInput);
+        int currentSize = strlen(text);
+        int currentLine = 1;
+        int currentPosition = 0;
+        char *ptr = text;
+        while (currentLine < lineNumber) {
+            if (*ptr == '\n') {
+                currentLine++;
+            }
+            ptr++;
+            currentPosition++;
+        }
+        position += currentPosition;
+
+        if (position + inputLength > currentSize) {
+            std::cout << "The position and length of input exceed text size.\n";
+            return;
+        }
+
+        strncpy(text + position, userInput, inputLength);
+        std::cout << "Text was inserted with replacement successfully\n";
 
     }
 
