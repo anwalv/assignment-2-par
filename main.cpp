@@ -193,11 +193,36 @@ public:
     }
 
     void Undo(){
-
+        if (undoNum<0){
+            std::cout<< "No commands to undo";
+        }
+        if(undoNum == 0 && numStates < 3){
+            strncpy(text, states[undoNum], arraySize);
+            currentStateIndex = undoNum;
+            undoNum = -1;
+        }
+        else{
+            strncpy(text, states[undoNum-1], arraySize);
+            currentStateIndex = undoNum;
+            undoNum --;
+        }
+        redoNum = std::min(redoNum + 1, numStates - 1);
+        std::cout << "Undo performed successfully\n";
     }
 
     void Redo() {
+        if (redoNum < 0 || redoNum >= numStates) {
+            std::cout << "No states to redo\n";
+            return;
+        }
 
+        strncpy(text, states[redoNum], arraySize);
+        redoNum++;
+        currentStateIndex = redoNum;
+
+        undoNum = std::min(undoNum + 1, numStates - 1);
+
+        std::cout << "Redo performed successfully\n";
     }
     void ReplaceInsert(){
         int lineNumber;
