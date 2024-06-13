@@ -105,20 +105,40 @@ public:
         int lineNumber;
         int position;
         char userInput[1000];
+        int inputLength;
+        int currentSize;
+        char answer;
 
-        std::cout << "Enter the line number: ";
-        std::cin >> lineNumber;
-        std::cin.ignore();
+        while (answer!='y') {
+            std::cout << "Enter the line number: ";
+            std::cin >> lineNumber;
+            std::cin.ignore();
 
-        std::cout << "Enter position number: ";
-        std::cin >> position;
-        std::cin.ignore();
+            std::cout << "Enter position number: ";
+            std::cin >> position;
+            std::cin.ignore();
 
+            int currentLine = 1;
+            int currentPosition = 0;
+            char *ptr = text;
+            while (currentLine < lineNumber) {
+                if (*ptr == '\n') {
+                    currentLine++;
+                }
+                ptr++;
+                currentPosition++;
+            }
+            position += currentPosition;
+            displayTextWithCursor(position);
+            std::cout << "Is this position correct?(y/n): ";
+            std::cin >> answer;
+            std::cin.ignore();
+        }
         std::cout << "Please, enter text to insert:\n";
         std::cin.getline(userInput, 1000);
 
-        int inputLength = strlen(userInput);
-        int currentSize = strlen(text);
+        inputLength = strlen(userInput);
+        currentSize = strlen(text);
         if (currentSize + inputLength >= arraySize) {
             arraySize = currentSize + inputLength + 2;
             text = (char *) realloc(text, arraySize * sizeof(char));
@@ -127,17 +147,7 @@ public:
                 return;
             }
         }
-        int currentLine = 1;
-        int currentPosition = 0;
-        char *ptr = text;
-        while (currentLine < lineNumber) {
-            if (*ptr == '\n') {
-                currentLine++;
-            }
-            ptr++;
-            currentPosition++;
-        }
-        position += currentPosition;
+
         memmove(text + position + inputLength, text + position, currentSize - position + 1);
         strncpy(text + position, userInput, inputLength);
         std::cout << "Text was added successfully\n";
@@ -160,30 +170,37 @@ public:
         int lineNumber;
         int position;
         int numChar;
+        char answer;
+        while (answer!='y') {
+            std::cout << "Enter the line number: ";
+            std::cin >> lineNumber;
+            std::cin.ignore();
 
-        std::cout << "Enter the line number: ";
-        std::cin >> lineNumber;
-        std::cin.ignore();
+            std::cout << "Enter position number: ";
+            std::cin >> position;
+            std::cin.ignore();
 
-        std::cout << "Enter position number: ";
-        std::cin >> position;
-        std::cin.ignore();
-
+            int currentLine = 1;
+            int currentPosition = 0;
+            char *ptr = text;
+            while (currentLine < lineNumber) {
+                if (*ptr == '\n') {
+                    currentLine++;
+                }
+                ptr++;
+                currentPosition++;
+            }
+            position += currentPosition;
+            displayTextWithCursor(position);
+            std::cout << "Is this position correct?(y/n): ";
+            std::cin >> answer;
+            std::cin.ignore();
+        }
         std::cout << "Please, enter number of characters: \n";
         std::cin >> numChar;
         std::cin.ignore();
-
-        int currentLine = 1;
         int currentPosition = 0;
-        char *ptr = text;
         int textLength = strlen(text);
-        while (currentLine < lineNumber) {
-            if (*ptr == '\n') {
-                currentLine++;
-            }
-            ptr++;
-            currentPosition++;
-        }
         position += currentPosition;
         if(position + numChar > textLength ){
             numChar = textLength -position;
@@ -228,31 +245,40 @@ public:
         int lineNumber;
         int position;
         char userInput[1000];
+        int inputLength;
+        int currentSize;
+        char answer;
 
-        std::cout << "Enter the line number: ";
-        std::cin >> lineNumber;
-        std::cin.ignore();
+        while (answer!='y') {
+            std::cout << "Enter the line number: ";
+            std::cin >> lineNumber;
+            std::cin.ignore();
 
-        std::cout << "Enter position number: ";
-        std::cin >> position;
-        std::cin.ignore();
+            std::cout << "Enter position number: ";
+            std::cin >> position;
+            std::cin.ignore();
 
+            int currentLine = 1;
+            int currentPosition = 0;
+            char *ptr = text;
+            while (currentLine < lineNumber) {
+                if (*ptr == '\n') {
+                    currentLine++;
+                }
+                ptr++;
+                currentPosition++;
+            }
+            position += currentPosition;
+            displayTextWithCursor(position);
+            std::cout << "Is this position correct?(y/n): ";
+            std::cin >> answer;
+            std::cin.ignore();
+        }
         std::cout << "Please, enter text to insert:\n";
         std::cin.getline(userInput, 1000);
 
-        int inputLength = strlen(userInput);
-        int currentSize = strlen(text);
-        int currentLine = 1;
-        int currentPosition = 0;
-        char *ptr = text;
-        while (currentLine < lineNumber) {
-            if (*ptr == '\n') {
-                currentLine++;
-            }
-            ptr++;
-            currentPosition++;
-        }
-        position += currentPosition;
+        inputLength = strlen(userInput);
+        currentSize = strlen(text);
 
         if (position + inputLength > currentSize) {
             std::cout << "The position and length of input exceed text size.\n";
@@ -267,31 +293,37 @@ public:
         int lineNumber;
         int position;
         int numChar;
+        char answer;
+        while (answer!='y') {
+            std::cout << "Enter the line number: ";
+            std::cin >> lineNumber;
+            std::cin.ignore();
 
-        std::cout << "Enter the line number: ";
-        std::cin >> lineNumber;
-        std::cin.ignore();
+            std::cout << "Enter position number: ";
+            std::cin >> position;
+            std::cin.ignore();
 
-        std::cout << "Enter position number: ";
-        std::cin >> position;
-        std::cin.ignore();
-
+            int currentLine = 1;
+            int currentPosition = 0;
+            char *ptr = text;
+            while (currentLine < lineNumber) {
+                if (*ptr == '\n') {
+                    currentLine++;
+                }
+                ptr++;
+                currentPosition++;
+            }
+            position += currentPosition;
+            displayTextWithCursor(position);
+            std::cout << "Is this position correct?(y/n): ";
+            std::cin >> answer;
+            std::cin.ignore();
+        }
         std::cout << "Please, enter number of characters: \n";
         std::cin >> numChar;
         std::cin.ignore();
 
-        int currentLine = 1;
-        int currentPosition = 0;
-        char *ptr = text;
         int textLength = strlen(text);
-        while (currentLine < lineNumber) {
-            if (*ptr == '\n') {
-                currentLine++;
-            }
-            ptr++;
-            currentPosition++;
-        }
-        position += currentPosition;
         if(position + numChar > textLength ){
             numChar = textLength -position;
         }
@@ -305,15 +337,32 @@ public:
         int lineNumber;
         int position;
 
-        std::cout << "Enter the line number: ";
-        std::cin >> lineNumber;
-        std::cin.ignore();
+        char answer;
+        while (answer!='y') {
+            std::cout << "Enter the line number: ";
+            std::cin >> lineNumber;
+            std::cin.ignore();
 
-        std::cout << "Enter position number: ";
-        std::cin >> position;
-        std::cin.ignore();
+            std::cout << "Enter position number: ";
+            std::cin >> position;
+            std::cin.ignore();
 
-
+            int currentLine = 1;
+            int currentPosition = 0;
+            char *ptr = text;
+            while (currentLine < lineNumber) {
+                if (*ptr == '\n') {
+                    currentLine++;
+                }
+                ptr++;
+                currentPosition++;
+            }
+            position += currentPosition;
+            displayTextWithCursor(position);
+            std::cout << "Is this position correct?(y/n): ";
+            std::cin >> answer;
+            std::cin.ignore();
+        }
         int bufferLength = strlen(clipboard);
         int currentSize = strlen(text);
         if (currentSize + bufferLength >= arraySize) {
@@ -324,60 +373,63 @@ public:
                 return;
             }
         }
-        int currentLine = 1;
-        int currentPosition = 0;
-        char *ptr = text;
-        while (currentLine < lineNumber) {
-            if (*ptr == '\n') {
-                currentLine++;
-            }
-            ptr++;
-            currentPosition++;
-        }
-        position += currentPosition;
         memmove(text + position + bufferLength, text + position, currentSize - position + 1);
         strncpy(text + position, clipboard, bufferLength);
         memset(clipboard, 0, sizeof(clipboard));
         std::cout << "Text was pasted successfully\n";
     }
-
-
     void CopyText(){
         int lineNumber;
         int position;
         int numChar;
+        char answer;
+        while (answer!='y') {
+            std::cout << "Enter the line number: ";
+            std::cin >> lineNumber;
+            std::cin.ignore();
 
-        std::cout << "Enter the line number: ";
-        std::cin >> lineNumber;
-        std::cin.ignore();
+            std::cout << "Enter position number: ";
+            std::cin >> position;
+            std::cin.ignore();
 
-        std::cout << "Enter position number: ";
-        std::cin >> position;
-        std::cin.ignore();
-
+            int currentLine = 1;
+            int currentPosition = 0;
+            char *ptr = text;
+            while (currentLine < lineNumber) {
+                if (*ptr == '\n') {
+                    currentLine++;
+                }
+                ptr++;
+                currentPosition++;
+            }
+            position += currentPosition;
+            displayTextWithCursor(position);
+            std::cout << "Is this position correct?(y/n): ";
+            std::cin >> answer;
+            std::cin.ignore();
+        }
         std::cout << "Please, enter number of characters: \n";
         std::cin >> numChar;
         std::cin.ignore();
 
-        int currentLine = 1;
-        int currentPosition = 0;
-        char *ptr = text;
         int textLength = strlen(text);
-        while (currentLine < lineNumber) {
-            if (*ptr == '\n') {
-                currentLine++;
-            }
-            ptr++;
-            currentPosition++;
-        }
-        position += currentPosition;
         if(position + numChar > textLength ){
             numChar = textLength -position;
         }
         strncpy(clipboard, text + position, numChar);
         clipboard[numChar] = '\0';
-        std::cout << clipboard;
-
+    }
+    void displayTextWithCursor(int position) {
+        for (int i = 0; i < strlen(text); ++i) {
+            if (i == position) {
+                std::cout << "|"; // показуємо курсор
+            }
+            std::cout << text[i];
+        }
+        if (position == strlen(text)) {
+            std::cout << "|"; // курсор в кінці тексту
+        }
+        std::cout << std::endl;
     }
 };
 int main() {
